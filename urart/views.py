@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from urart.models import Artwork
 import boto
@@ -27,3 +28,13 @@ def upload(request):
 		return redirect('upload')
 	else:
 		return render(request, 'upload.html')
+
+def artwork_list(request):
+	if request.user.is_authenticated():
+		userid = request.user.id
+		artworks = Artwork.objects.filter(artist=userid)
+		urls = [artwork.get('url') for artwork in artworks.values('url')]
+		return render(request, 'artwork_list.html', {'pic_urls': urls})
+
+	else:
+		return HttpResponse("<h1>You ain't logged in</h1>")
