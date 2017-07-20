@@ -12,7 +12,7 @@ def upload(request):
 	if request.method == 'POST' and request.FILES['myfile']:
 		artwork = Artwork.objects.create(artist=request.user)
 		pic = request.FILES['myfile']
-		
+		#connect to AWS
 		conn = boto.connect_s3(aws_access_key_id=settings.AWS_ACCESS_KEY_ID, 
 			aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY, is_secure=False)
 		bucket = conn.get_bucket('urart')
@@ -20,11 +20,7 @@ def upload(request):
 		key.set_contents_from_file(pic)
 
 		artwork.url = key.generate_url(9999999)
-
-		# artwork.artist = request.user
-		# artwork.title = request.POST['title']
 		artwork.save()
-
 		return redirect('upload')
 	else:
 		return render(request, 'upload.html')
@@ -35,6 +31,5 @@ def artwork_list(request):
 		artworks = Artwork.objects.filter(artist=userid)
 		urls = [artwork.get('url') for artwork in artworks.values('url')]
 		return render(request, 'artwork_list.html', {'pic_urls': urls})
-
 	else:
 		return HttpResponse("<h1>You ain't logged in, so <a href='/login/'>login</a></h1>")
