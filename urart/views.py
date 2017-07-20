@@ -37,4 +37,4 @@ def artwork_list(request):
 		return render(request, 'artwork_list.html', {'pic_urls': urls})
 
 	else:
-		return HttpResponse("<h1>You ain't logged in</h1>")
+		return HttpResponse("<h1>You ain't logged in, so <a href='/login/'>login</a></h1>")
