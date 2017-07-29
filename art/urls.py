@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from urart import views
 from accounts import views as account_views
 from django.contrib import admin
@@ -13,5 +13,8 @@ urlpatterns = [
     url(r'^signup/$', account_views.signup, name='signup'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
-    
+
+	#rest framework
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+	url(r'^urart/', include('urart.urls')),
 ]

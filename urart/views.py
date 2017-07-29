@@ -33,3 +33,15 @@ def artwork_list(request):
 		return render(request, 'artwork_list.html', {'pic_urls': urls})
 	else:
 		return HttpResponse("<h1>You ain't logged in, so <a href='/login/'>login</a></h1>")
+
+
+from rest_framework import generics
+from urart.serializers import ArtworkSerializer
+from urart.models import Artwork
+class ArtworkListApi(generics.ListCreateAPIView):
+	queryset = Artwork.objects.all()
+	serializer_class = ArtworkSerializer
+
+class ArtworkDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Artwork.objects.all()
+	serializer_class = ArtworkSerializer

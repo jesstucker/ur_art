@@ -1,12 +1,17 @@
+
 <!DOCTYPE html>
 <html>
 <head>
+  {% load static %}
+  <script src="{% static "react.js" %}"></script>
+  <script src="{% static "react-dom.js" %}"></script>
+  <script src="{% static "browser.min.js" %}"></script>
 </head>
 <body>
 
 {% if user.is_authenticated %}
 User ID: {{ user.id }}<br>
-WHATUPS UP {{ user.username }}?<br>
+WHATUPS UP&nbsp; {{ user.username }}?<br>
 <a href="{% url 'logout' %}">Logout</a>
 {% else %}
 <a href="{% url 'login' %}">Login</a>
@@ -14,5 +19,34 @@ WHATUPS UP {{ user.username }}?<br>
 
 {% block content %}
 {% endblock %}
+
+
+<div id="app"></div>
+<script type="text/babel">
+
+  var Movie = React.createClass({
+    render: function() {
+      return (
+        <div>
+          <h1>{this.props.title}</h1>
+          <h2>{this.props.genre}</h2>
+        </div>
+      );
+    }
+  });
+
+  ReactDOM.render(
+    <div>
+    <Movie title="Who's Afraid of Virginia Wolfe?" genre="Drama" />
+    <Movie title="Nightcrawler" genre="Suspense" />
+    <Movie title="Hackers" genre="Action/Teen" />
+    </div>
+    , document.getElementById('app'));
+</script>
+
+
+
+
+
 </body>
 </html>

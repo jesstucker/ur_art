@@ -40,8 +40,27 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'urart',
+    'rest_framework',
+    'snippets.apps.SnippetsConfig',
+    'webpack_loader',
 
 ]
+
+STATICFILES_DIRS = (
+    #This lets Django's collectstatic store our bundles
+    os.path.join(BASE_DIR, 'assets'), 
+)
+
+STATIC_URL = '/assets/'
+
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}
+
 
 LOGIN_REDIRECT_URL = 'home'
 
@@ -129,4 +148,10 @@ STATIC_URL = '/static/'
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
