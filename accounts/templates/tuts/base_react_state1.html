@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  {% load static %}
+  <script src="{% static "react.js" %}"></script>
+  <script src="{% static "react-dom.js" %}"></script>
+  <script src="{% static "browser.min.js" %}"></script>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+User ID: {{ user.id }}<br>
+WHATUPS UP&nbsp; {{ user.username }}?<br>
+<a href="{% url 'logout' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+
+  <div id="container"></div>
+    <script type="text/babel">
+      var CheckBox = React.createClass({
+
+        getInitialState: function() {
+          return {checked: true}
+        },
+
+        handleChecked: function() {
+          this.setState({checked: !this.state.checked})
+        },
+
+        render: function () {
+          var msg;
+          if(this.state.checked){
+            msg = 'checked'
+          } else {
+            msg = 'unchecked'
+          }
+          return (
+            <div>
+              <input type="checkbox" onChange={this.handleChecked} defaultChecked={this.state.checked} />
+              <h3>Checkbox is {msg}</h3>
+            </div>
+          )
+        }
+      });
+      ReactDOM.render(<CheckBox />, document.getElementById('container'));
+  </script>
+
+
+
+
+
+</body>
+</html>
